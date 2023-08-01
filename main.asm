@@ -40,7 +40,7 @@ cmp byte ptr [command], 'h'
 je .print_hour
 cmp byte ptr [command], 'm'
 je .print_memory
-jmp .invalid_command
+jmp invalid_command
 
 .print_hour:
 mov ah, 0x02
@@ -50,7 +50,7 @@ mov dl, ch
 call print_hex
 mov dl, cl
 call print_hex
-jmp .command_done
+jmp command_done
 
 .print_memory:
 mov ah, 0x48
@@ -59,9 +59,9 @@ int 0x21
 mov ah, 0x02
 mov dl, bl
 call print_hex
-jmp .command_done
+jmp command_done
 
-.print_hex:
+print_hex:
 push ax
 push bx
 push cx
@@ -90,12 +90,12 @@ pop bx
 pop ax
 ret
 
-.command_done:
+command_done:
 mov si, command
 call print_string
 ret
 
-.invalid_command:
+invalid_command:
 mov si, invalid
 call print_string
 ret
